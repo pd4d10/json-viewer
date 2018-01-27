@@ -33,9 +33,13 @@ const mappings = [
 ]
 
 module.exports = {
-  entry: './src',
+  entry: {
+    'content-script': './src/content-script',
+    background: './src/background',
+  },
+  devtool: 'source-map',
   output: {
-    filename: 'output.js',
+    filename: '[name].js',
     path: path.resolve('chrome/dist'),
   },
   module: {
@@ -48,11 +52,16 @@ module.exports = {
         test: /\.(png|svg)$/,
         use: 'file-loader',
       },
+      {
+        test: /\.properties$/,
+        use: 'raw-loader',
+      },
     ],
   },
+  node: { fs: 'empty' },
   resolve: {
     alias: {
-      devtools: path.resolve(__dirname, 'gecko-dev/devtools'),
+      devtools: path.resolve('gecko-dev/devtools'),
     },
   },
   plugins: [

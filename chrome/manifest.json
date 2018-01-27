@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "JSONView",
+  "version": "0.0.1",
+  "description": "View JSON",
+  "homepage_url": "https://github.com/pd4d10/jsonview",
+  "background": {
+    "scripts": ["dist/background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["dist/content-script.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "permissions": ["webRequest", "<all_urls>"]
+}

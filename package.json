@@ -1,9 +1,10 @@
 {
   "name": "jsonview",
   "version": "0.0.1",
+  "private": true,
   "description": "",
-  "main": "index.js",
   "scripts": {
+    "start": "webpack -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,7 +23,11 @@
     "babel-loader": "^8.0.0-beta.0",
     "css-loader": "^0.28.9",
     "file-loader": "^1.1.6",
+    "raw-loader": "^0.5.1",
     "style-loader": "^0.19.1",
     "webpack": "^3.10.0"
+  },
+  "dependencies": {
+    "properties-parser": "^0.3.1"
   }
 }
