@@ -1,5 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
+const StringReplacePlugin = require('string-replace-webpack-plugin')
 
 const mappings = [
   [
@@ -11,16 +12,6 @@ const mappings = [
       )
     },
   ],
-  // [
-  //   /chrome:\/\/devtools\/content/,
-  //   result => {
-  //     result.request = result.request.replace(
-  //       './chrome://devtools/content',
-  //       path.resolve('./gecko-dev/devtools/client/themes')
-  //       path.join(__dirname, '..')
-  //     )
-  //   },
-  // ],
   [
     /resource:\/\/devtools/,
     result => {
@@ -46,7 +37,22 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              plugins: [require('autoprefixer')],
+            },
+          },
+        ],
       },
       {
         test: /\.(png|svg)$/,
@@ -55,6 +61,20 @@ module.exports = {
       {
         test: /\.properties$/,
         use: 'raw-loader',
+      },
+      {
+        test: /LabelCell\.js$/,
+        use: StringReplacePlugin.replace({
+          replacements: [
+            {
+              // This fix React inline style
+              pattern: /paddingInlineStart/g,
+              replacement: function(match, p1, offset, string) {
+                return 'WebkitPaddingStart'
+              },
+            },
+          ],
+        }),
       },
     ],
   },
@@ -65,6 +85,7 @@ module.exports = {
     },
   },
   plugins: [
+    new StringReplacePlugin(),
     ...mappings.map(
       ([regex, res]) => new webpack.NormalModuleReplacementPlugin(regex, res)
     ),
