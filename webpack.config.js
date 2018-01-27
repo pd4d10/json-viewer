@@ -50,7 +50,7 @@ module.exports = {
       },
       {
         test: /\.(png|svg)$/,
-        use: 'file-loader',
+        use: 'url-loader',
       },
       {
         test: /\.properties$/,
