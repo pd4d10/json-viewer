@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const StringReplacePlugin = require('string-replace-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 const mappings = [
   [
@@ -26,6 +27,7 @@ const mappings = [
 module.exports = {
   entry: {
     'content-script': './src/content-script',
+    render: './src/render',
     background: './src/background',
   },
   devtool: 'source-map',
@@ -85,6 +87,7 @@ module.exports = {
     },
   },
   plugins: [
+    new CleanWebpackPlugin('chrome/dist'),
     new StringReplacePlugin(),
     ...mappings.map(
       ([regex, res]) => new webpack.NormalModuleReplacementPlugin(regex, res)
