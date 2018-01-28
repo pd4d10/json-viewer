@@ -34,10 +34,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       chrome.tabs.executeScript(id, {
         file: 'dist/render.js',
       })
+      break
     case 'headers':
       sendResponse(data[id])
       delete data[id]
+      break
     case 'delete':
       delete data[id]
+      break
   }
 })
