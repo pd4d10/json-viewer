@@ -91,6 +91,7 @@ module.exports = {
     alias: {
       'devtools/client/shared/vendor/react': 'react',
       'devtools/client/shared/vendor/react-dom': 'react-dom',
+      'devtools/client/shared/vendor/react-prop-types': 'prop-types',
       devtools: path.resolve('gecko-dev/devtools'),
     },
   },

@@ -28,7 +28,7 @@ function setTheme(theme = themes[0]) {
   document.documentElement.setAttribute('class', 'theme-' + theme)
 }
 
-function render(jsonNode, headers) {
+function render(text, headers) {
   window.addEventListener('contentMessage', e => {
     console.log('contentMessage', e.detail)
     switch (e.detail.type) {
@@ -38,7 +38,7 @@ function render(jsonNode, headers) {
   })
 
   window.JSONView = {
-    json: jsonNode,
+    json: new Text(text),
     debug: true, // TODO:
     Locale: {
       $STR: key => localeMap[key],
@@ -80,5 +80,5 @@ function render(jsonNode, headers) {
 }
 
 chrome.runtime.sendMessage({ type: 'headers' }, headers => {
-  render(document.body.childNodes[0], headers)
+  render(document.body.childNodes[0].innerText, headers)
 })
