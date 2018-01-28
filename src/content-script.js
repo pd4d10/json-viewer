@@ -7,6 +7,9 @@ if (
     JSON.parse(document.body.childNodes[0].innerText)
     chrome.runtime.sendMessage({ type: 'render' })
   } catch (err) {
+    chrome.runtime.sendMessage({ type: 'delete' })
     console.error(err)
   }
+} else {
+  chrome.runtime.sendMessage({ type: 'delete' })
 }
