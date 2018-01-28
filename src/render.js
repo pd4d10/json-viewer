@@ -1,6 +1,10 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
 import 'devtools/client/jsonview/css/main.css'
 import './reset.css'
 import localeMap from 'devtools/client/locales/en-US/jsonview.properties'
+import { themes } from './constants'
+import Options from './options'
 
 // Save as file
 function save(href) {
@@ -18,6 +22,10 @@ function save(href) {
 
   link.download = filename
   link.click()
+}
+
+function setTheme(theme = themes[0]) {
+  document.documentElement.setAttribute('class', 'theme-' + theme)
 }
 
 function render(jsonNode, headers) {
@@ -48,12 +56,27 @@ function render(jsonNode, headers) {
     os = 'linux'
   }
   document.documentElement.setAttribute('platform', os)
-  document.documentElement.setAttribute('class', 'theme-light') // TODO: Add options
   // TODO: Set dir to ltr or rtl by browser default locale
   // document.documentElement.setAttribute('dir', 'ltr')
+  chrome.storage.sync.get('theme', ({ theme }) => {
+    setTheme(theme)
+    document.body.innerHTML = '<div id="content"></div><div id="options"></div>'
 
-  document.body.innerHTML = '<div id="content"></div>'
-  require('devtools/client/jsonview/json-viewer')
+    // Render JSONView component
+    require('devtools/client/jsonview/json-viewer')
+
+    // Render options
+    ReactDOM.render(
+      <Options
+        theme={theme}
+        changeTheme={theme => {
+          setTheme(theme)
+          chrome.storage.sync.set({ theme })
+        }}
+      />,
+      document.getElementById('options')
+    )
+  })
 }
 
 chrome.runtime.sendMessage({ type: 'headers' }, headers => {

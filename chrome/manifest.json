@@ -14,5 +14,5 @@
       "run_at": "document_end"
     }
   ],
-  "permissions": ["webRequest", "<all_urls>"]
+  "permissions": ["webRequest", "<all_urls>", "storage"]
 }
