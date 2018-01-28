@@ -14,5 +14,8 @@
       "run_at": "document_end"
     }
   ],
+  "icons": {
+    "128": "icon.png"
+  },
   "permissions": ["webRequest", "<all_urls>", "storage"]
 }
