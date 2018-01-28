@@ -1,26 +1,37 @@
+// TODO: Prevent memory leak
 const data = {}
+
+const filter = { urls: ['<all_urls>'], types: ['main_frame'] }
 
 chrome.webRequest.onSendHeaders.addListener(
   details => {
-    console.log('onSendHeaders', details)
+    console.log('onSendHeaders', details, data)
     if (!data[details.tabId]) data[details.tabId] = {}
     data[details.tabId].request = details.requestHeaders
   },
-  { urls: ['<all_urls>'], types: ['main_frame'] },
+  filter,
   ['requestHeaders']
 )
 
 chrome.webRequest.onHeadersReceived.addListener(
   details => {
-    console.log('onHeadersReceived', details)
+    console.log('onHeadersReceived', details, data)
     if (!data[details.tabId]) data[details.tabId] = {}
     data[details.tabId].response = details.responseHeaders
   },
-  { urls: ['<all_urls>'], types: ['main_frame'] },
+  filter,
   ['responseHeaders']
 )
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  console.log('onMessage', data, sender.tab.id)
-  sendResponse(data[sender.tab.id])
+  const { id } = sender.tab
+  console.log('onMessage', message, id, data)
+  switch (message.type) {
+    case 'render':
+      chrome.tabs.executeScript(id, {
+        file: 'dist/render.js',
+      })
+    case 'headers':
+      sendResponse(data[id])
+  }
 })
