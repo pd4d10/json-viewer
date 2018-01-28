@@ -1,9 +1,6 @@
 import 'devtools/client/jsonview/css/main.css'
 import './reset.css'
-
-const localeMap = require('properties-parser').parse(
-  require('devtools/client/locales/en-US/jsonview.properties')
-)
+import localeMap from 'devtools/client/locales/en-US/jsonview.properties'
 
 // Save as file
 function save(href) {

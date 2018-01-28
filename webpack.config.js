@@ -62,7 +62,7 @@ module.exports = {
       },
       {
         test: /\.properties$/,
-        use: 'raw-loader',
+        use: 'properties-loader',
       },
       {
         test: /LabelCell\.js$/,
