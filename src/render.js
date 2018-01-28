@@ -13,7 +13,8 @@ function save(href) {
   // /a -> a.json
   // /a.json -> a.json
   // /a.txt -> a.txt.json
-  let filename = location.href.split('/').slice(-1)[0]
+  // / -> download
+  let filename = location.href.split('/').slice(-1)[0] || 'download'
   if (!/\.json$/.test(filename)) {
     filename += '.json'
   }
