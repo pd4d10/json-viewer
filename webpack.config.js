@@ -89,6 +89,8 @@ module.exports = {
   node: { fs: 'empty' },
   resolve: {
     alias: {
+      'devtools/client/shared/vendor/react': 'react',
+      'devtools/client/shared/vendor/react-dom': 'react-dom',
       devtools: path.resolve('gecko-dev/devtools'),
     },
   },
