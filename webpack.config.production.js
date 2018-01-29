@@ -15,6 +15,9 @@ module.exports = merge(config, {
         compress: {
           drop_console: true,
         },
+        output: {
+          ascii_only: true, // This fix chrome.tabs.executeScript error: not utf-8
+        },
       },
     }),
     new BundleAnalyzerPlugin(),
