@@ -1,39 +1,35 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import 'devtools/client/jsonview/css/main.css'
-import './reset.css'
 import localeMap from 'devtools/client/locales/en-US/jsonview.properties'
 import { themes } from './constants'
 import Options from './options'
 
-// Save as file
-function save(href) {
-  const link = document.createElement('a')
-  link.href = href
-
-  // /a -> a.json
-  // /a.json -> a.json
-  // /a.txt -> a.txt.json
-  // / -> download
-  let filename = location.href.split('/').slice(-1)[0] || 'download'
-  if (!/\.json$/.test(filename)) {
-    filename += '.json'
-  }
-
-  link.download = filename
-  link.click()
-}
+const text = document.body.childNodes[0].innerText
 
 function setTheme(theme = themes[0]) {
   document.documentElement.setAttribute('class', 'theme-' + theme)
 }
 
-function render(text, headers) {
+function render(text, headers, theme) {
+  // Save button click event
   window.addEventListener('contentMessage', e => {
     console.log('contentMessage', e.detail)
     switch (e.detail.type) {
       case 'save':
-        save(e.detail.value || '')
+        const link = document.createElement('a')
+        link.href = e.detail.value || ''
+
+        // /a -> a.json
+        // /a.json -> a.json
+        // /a.txt -> a.txt.json
+        // / -> download
+        let filename = location.href.split('/').slice(-1)[0] || 'download'
+        if (!/\.json$/.test(filename)) {
+          filename += '.json'
+        }
+
+        link.download = filename
+        link.click()
     }
   })
 
@@ -47,6 +43,7 @@ function render(text, headers) {
   }
   console.log('JSONView', window.JSONView)
 
+  // Set <html> attributes
   let os
   if (navigator.platform.startsWith('Win')) {
     os = 'win'
@@ -58,27 +55,33 @@ function render(text, headers) {
   document.documentElement.setAttribute('platform', os)
   // TODO: Set dir to ltr or rtl by browser default locale
   // document.documentElement.setAttribute('dir', 'ltr')
-  chrome.storage.sync.get('theme', ({ theme }) => {
-    setTheme(theme)
-    document.body.innerHTML = '<div id="content"></div><div id="options"></div>'
+  setTheme(theme)
 
-    // Render JSONView component
-    require('devtools/client/jsonview/json-viewer')
+  document.body.innerHTML = '<div id="content"></div><div id="options"></div>'
 
-    // Render options
-    ReactDOM.render(
-      <Options
-        theme={theme}
-        changeTheme={theme => {
-          setTheme(theme)
-          chrome.storage.sync.set({ theme })
-        }}
-      />,
-      document.getElementById('options')
-    )
-  })
+  // Inject CSS
+  require('devtools/client/jsonview/css/main.css')
+  require('./reset.css')
+
+  // Render JSONView component
+  require('devtools/client/jsonview/json-viewer')
+
+  // Render options
+  ReactDOM.render(
+    <Options
+      theme={theme}
+      changeTheme={theme => {
+        setTheme(theme)
+        chrome.storage.sync.set({ theme })
+      }}
+    />,
+    document.getElementById('options')
+  )
 }
 
-chrome.runtime.sendMessage({ type: 'headers' }, headers => {
-  render(document.body.childNodes[0].innerText, headers)
+Promise.all([
+  new Promise(r => chrome.runtime.sendMessage({ type: 'headers' }, r)),
+  new Promise(r => chrome.storage.sync.get('theme', r)),
+]).then(([headers, { theme }]) => {
+  render(text, headers, theme)
 })
