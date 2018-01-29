@@ -6,6 +6,7 @@
   "scripts": {
     "start": "webpack",
     "build": "webpack --config webpack.config.production.js",
+    "package": "cd chrome; cp ../LICENSE .; zip -r ../chrome.zip .; rm LICENSE; cd ..",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
