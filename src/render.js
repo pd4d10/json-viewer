@@ -6,7 +6,7 @@ import Options from './options'
 
 const text = document.body.childNodes[0].innerText
 
-function setTheme(theme = themes[0]) {
+function setTheme(theme) {
   document.documentElement.setAttribute('class', 'theme-' + theme)
 }
 
@@ -82,6 +82,6 @@ function render(text, headers, theme) {
 Promise.all([
   new Promise(r => chrome.runtime.sendMessage({ type: 'headers' }, r)),
   new Promise(r => chrome.storage.sync.get('theme', r)),
-]).then(([headers, { theme }]) => {
+]).then(([headers, { theme = themes[0] }]) => {
   render(text, headers, theme)
 })
