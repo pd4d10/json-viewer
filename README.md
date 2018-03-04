@@ -2,7 +2,7 @@
 
 Port of [Firefox's JSON Viewer](https://developer.mozilla.org/en-US/docs/Tools/JSON_viewer) for Chrome and Opera
 
-![Screenshot](assets/screenshot.png)
+<img alt="Screenshot" src="assets/screenshot.png" width="640" />
 
 ## Installation
 
