@@ -10,6 +10,10 @@ Install it from [Chrome Web Store](https://chrome.google.com/webstore/detail/jso
 
 Opera users could use this extension: [Install Chrome Extensions](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/)
 
+## Usage
+
+Try https://httpbin.org/headers after installation
+
 ## License
 
 MIT
