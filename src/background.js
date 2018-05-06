@@ -9,7 +9,7 @@ chrome.webRequest.onSendHeaders.addListener(
     }
   },
   filter,
-  ['requestHeaders']
+  ['requestHeaders'],
 )
 
 chrome.webRequest.onHeadersReceived.addListener(
@@ -18,7 +18,7 @@ chrome.webRequest.onHeadersReceived.addListener(
     data[details.tabId].response = details.responseHeaders
   },
   filter,
-  ['responseHeaders']
+  ['responseHeaders'],
 )
 
 chrome.webRequest.onErrorOccurred.addListener(details => {
