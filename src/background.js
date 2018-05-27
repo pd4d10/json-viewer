@@ -16,6 +16,7 @@ chrome.webRequest.onHeadersReceived.addListener(
   details => {
     console.log('onHeadersReceived', details, data)
     data[details.tabId].response = details.responseHeaders
+    // TODO: Merge same key like `Vary`
   },
   filter,
   ['responseHeaders'],

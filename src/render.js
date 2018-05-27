@@ -83,5 +83,11 @@ Promise.all([
   new Promise(r => chrome.runtime.sendMessage({ type: 'headers' }, r)),
   new Promise(r => chrome.storage.sync.get('theme', r)),
 ]).then(([headers, { theme = themes[0] }]) => {
+  if (!headers) {
+    headers = {
+      request: [],
+      response: [],
+    }
+  }
   render(text, headers, theme)
 })
