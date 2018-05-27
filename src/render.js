@@ -35,7 +35,6 @@ function render(text, headers, theme) {
 
   window.JSONView = {
     json: new Text(text),
-    debug: true, // TODO:
     Locale: {
       $STR: key => localeMap[key],
     },
@@ -82,12 +81,15 @@ function render(text, headers, theme) {
 Promise.all([
   new Promise(r => chrome.runtime.sendMessage({ type: 'headers' }, r)),
   new Promise(r => chrome.storage.sync.get('theme', r)),
-]).then(([headers, { theme = themes[0] }]) => {
+]).then(([headers, { theme }]) => {
   if (!headers) {
     headers = {
       request: [],
       response: [],
     }
+  }
+  if (!themes.includes(theme)) {
+    theme = themes[0]
   }
   render(text, headers, theme)
 })
