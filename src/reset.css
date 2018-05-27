@@ -2,3 +2,9 @@
 table {
   font-size: unset;
 }
+
+/* Seems a Chrome bug, should remove `#filterinput` to make it works */
+/* string-replace-webpack-plugin seems doesn't work so overwrite it */
+.devtools-filterinput {
+  background-image: url(chrome://devtools/skin/images/filter.svg);
+}

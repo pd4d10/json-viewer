@@ -9,7 +9,7 @@ const mappings = [
     result => {
       result.request = result.request.replace(
         './chrome://devtools/skin',
-        path.resolve('./gecko-dev/devtools/client/themes')
+        path.resolve('./gecko-dev/devtools/client/themes'),
       )
     },
   ],
@@ -18,7 +18,7 @@ const mappings = [
     result => {
       result.request = result.request.replace(
         './resource://devtools',
-        path.resolve('./gecko-dev/devtools')
+        path.resolve('./gecko-dev/devtools'),
       )
     },
   ],
@@ -39,6 +39,34 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /LabelCell\.js$/,
+        use: StringReplacePlugin.replace({
+          replacements: [
+            {
+              // This fix React inline style
+              pattern: /paddingInlineStart/g,
+              replacement: function(match, p1, offset, string) {
+                return 'WebkitPaddingStart'
+              },
+            },
+          ],
+        }),
+      },
+      // Seems not work here, overwrite it in `reset.css`
+      // {
+      //   test: /\common.css$/,
+      //   use: StringReplacePlugin.replace({
+      //     replacements: [
+      //       {
+      //         pattern: /#filterinput/g,
+      //         replacement: () => {
+      //           return ''
+      //         },
+      //       },
+      //     ],
+      //   }),
+      // },
       {
         test: /\.js$/,
         use: {
@@ -77,20 +105,6 @@ module.exports = {
         test: /\.properties$/,
         use: 'properties-loader',
       },
-      {
-        test: /LabelCell\.js$/,
-        use: StringReplacePlugin.replace({
-          replacements: [
-            {
-              // This fix React inline style
-              pattern: /paddingInlineStart/g,
-              replacement: function(match, p1, offset, string) {
-                return 'WebkitPaddingStart'
-              },
-            },
-          ],
-        }),
-      },
     ],
   },
   node: { fs: 'empty' },
@@ -106,7 +120,7 @@ module.exports = {
     new CleanWebpackPlugin('chrome/dist'),
     new StringReplacePlugin(),
     ...mappings.map(
-      ([regex, res]) => new webpack.NormalModuleReplacementPlugin(regex, res)
+      ([regex, res]) => new webpack.NormalModuleReplacementPlugin(regex, res),
     ),
   ],
 }
