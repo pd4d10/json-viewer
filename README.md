@@ -14,6 +14,8 @@ Opera users could use this extension: [Install Chrome Extensions](https://addons
 
 Try https://httpbin.org/headers after installation
 
+Open *Allow access to file URLs* to make `file:///` work
+
 ## License
 
 MIT
