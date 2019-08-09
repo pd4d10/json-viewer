@@ -113,6 +113,7 @@ module.exports = {
       'devtools/client/shared/vendor/react': 'react',
       'devtools/client/shared/vendor/react-dom': 'react-dom',
       'devtools/client/shared/vendor/react-prop-types': 'prop-types',
+      Services: path.resolve('src/services'),
       devtools: path.resolve('gecko-dev/devtools'),
     },
   },
