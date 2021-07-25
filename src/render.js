@@ -58,7 +58,6 @@ function render(text, headers, theme) {
 
   // Inject CSS
   require('devtools/client/jsonview/css/main.css')
-  require('./reset.css')
 
   // Render JSONView component
   require('devtools/client/jsonview/json-viewer')

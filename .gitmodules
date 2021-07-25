@@ -1,3 +1,0 @@
-[submodule "gecko-dev"]
-	path = gecko-dev
-	url = https://github.com/mozilla/gecko-dev.git
