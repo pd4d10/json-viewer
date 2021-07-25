@@ -58,3 +58,4 @@ typings/
 .env
 
 chrome/dist/
+vendor/

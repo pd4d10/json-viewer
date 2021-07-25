@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import localeMap from 'devtools/client/locales/en-US/jsonview.properties'
+import Locale from 'devtools/client/locales/en-US/jsonview.properties'
 import { themes } from './constants'
 import Options from './options'
 
@@ -12,7 +12,7 @@ function setTheme(theme) {
 
 function render(text, headers, theme) {
   // Save button click event
-  window.addEventListener('contentMessage', e => {
+  window.addEventListener('contentMessage', (e) => {
     console.log('contentMessage', e.detail)
     switch (e.detail.type) {
       case 'save':
@@ -35,9 +35,7 @@ function render(text, headers, theme) {
 
   window.JSONView = {
     json: new Text(text),
-    Locale: {
-      $STR: key => localeMap[key],
-    },
+    Locale,
     headers,
   }
   console.log('JSONView', window.JSONView)
@@ -69,7 +67,7 @@ function render(text, headers, theme) {
   ReactDOM.render(
     <Options
       theme={theme}
-      changeTheme={theme => {
+      changeTheme={(theme) => {
         setTheme(theme)
         chrome.storage.sync.set({ theme })
       }}
@@ -79,8 +77,8 @@ function render(text, headers, theme) {
 }
 
 Promise.all([
-  new Promise(r => chrome.runtime.sendMessage({ type: 'headers' }, r)),
-  new Promise(r => chrome.storage.sync.get('theme', r)),
+  new Promise((r) => chrome.runtime.sendMessage({ type: 'headers' }, r)),
+  new Promise((r) => chrome.storage.sync.get('theme', r)),
 ]).then(([headers, { theme }]) => {
   if (!headers) {
     headers = {

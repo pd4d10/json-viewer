@@ -1,29 +1,11 @@
+// @ts-check
 const path = require('path')
 const webpack = require('webpack')
-const StringReplacePlugin = require('string-replace-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
-const mappings = [
-  [
-    /chrome:\/\/devtools\/skin/,
-    result => {
-      result.request = result.request.replace(
-        './chrome://devtools/skin',
-        path.resolve('./gecko-dev/devtools/client/themes'),
-      )
-    },
-  ],
-  [
-    /resource:\/\/devtools/,
-    result => {
-      result.request = result.request.replace(
-        './resource://devtools',
-        path.resolve('./gecko-dev/devtools'),
-      )
-    },
-  ],
-]
+const mozillaCentral = path.resolve('vendor/mozilla-central-ab524816237c')
 
+/** @type {webpack.Configuration} */
 module.exports = {
   mode: 'development',
   watch: true,
@@ -40,40 +22,11 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /LabelCell\.js$/,
-        use: StringReplacePlugin.replace({
-          replacements: [
-            {
-              // This fix React inline style
-              pattern: /paddingInlineStart/g,
-              replacement: function(match, p1, offset, string) {
-                return 'WebkitPaddingStart'
-              },
-            },
-          ],
-        }),
-      },
-      // Seems not work here, overwrite it in `reset.css`
-      // {
-      //   test: /\common.css$/,
-      //   use: StringReplacePlugin.replace({
-      //     replacements: [
-      //       {
-      //         pattern: /#filterinput/g,
-      //         replacement: () => {
-      //           return ''
-      //         },
-      //       },
-      //     ],
-      //   }),
-      // },
-      {
         test: /\.js$/,
         use: {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-react'],
-            plugins: ['@babel/plugin-proposal-object-rest-spread'],
           },
         },
         exclude: /node_modules/,
@@ -84,22 +37,28 @@ module.exports = {
           'style-loader',
           {
             loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-            },
+            options: { importLoaders: 1 },
           },
           {
-            loader: 'postcss-loader',
+            loader: 'string-replace-loader',
             options: {
-              ident: 'postcss',
-              plugins: [require('autoprefixer')],
+              multiple: [
+                {
+                  search: new RegExp('chrome://devtools/skin', 'g'),
+                  replace: 'devtools/client/themes',
+                },
+                {
+                  search: new RegExp('chrome://devtools/content', 'g'),
+                  replace: 'devtools/client',
+                },
+              ],
             },
           },
         ],
       },
       {
         test: /\.(png|svg)$/,
-        use: 'url-loader',
+        type: 'asset',
       },
       {
         test: /\.properties$/,
@@ -107,21 +66,14 @@ module.exports = {
       },
     ],
   },
-  node: { fs: 'empty' },
   resolve: {
     alias: {
       'devtools/client/shared/vendor/react': 'react',
       'devtools/client/shared/vendor/react-dom': 'react-dom',
       'devtools/client/shared/vendor/react-prop-types': 'prop-types',
       Services: path.resolve('src/services'),
-      devtools: path.resolve('gecko-dev/devtools'),
+      devtools: path.resolve(mozillaCentral, 'devtools'),
     },
   },
-  plugins: [
-    new CleanWebpackPlugin('chrome/dist'),
-    new StringReplacePlugin(),
-    ...mappings.map(
-      ([regex, res]) => new webpack.NormalModuleReplacementPlugin(regex, res),
-    ),
-  ],
+  plugins: [new CleanWebpackPlugin()],
 }
