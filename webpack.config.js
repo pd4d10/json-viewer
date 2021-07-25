@@ -3,8 +3,6 @@ const path = require('path')
 const webpack = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
-const mozillaCentral = path.resolve('vendor/mozilla-central-ab524816237c')
-
 /** @type {webpack.Configuration} */
 module.exports = {
   mode: 'development',
@@ -57,7 +55,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|svg)$/,
+        test: /\.svg$/,
         type: 'asset',
       },
       {
@@ -72,7 +70,7 @@ module.exports = {
       'devtools/client/shared/vendor/react-dom': 'react-dom',
       'devtools/client/shared/vendor/react-prop-types': 'prop-types',
       Services: path.resolve('src/services'),
-      devtools: path.resolve(mozillaCentral, 'devtools'),
+      devtools: path.resolve('vendor/mozilla-central/devtools'),
     },
   },
   plugins: [new CleanWebpackPlugin()],
