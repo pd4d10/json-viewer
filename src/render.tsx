@@ -4,7 +4,7 @@ import Locale from 'devtools/client/locales/en-US/jsonview.properties'
 import { themes } from './constants'
 import Options from './options'
 
-const text = document.body.childNodes[0].innerText
+const text = document.body.children[0].innerText
 
 function setTheme(theme) {
   document.documentElement.setAttribute('class', 'theme-' + theme)
@@ -41,7 +41,7 @@ function render(text, headers, theme) {
   console.log('JSONView', window.JSONView)
 
   // Set <html> attributes
-  let os
+  let os: string
   if (navigator.platform.startsWith('Win')) {
     os = 'win'
   } else if (navigator.platform.startsWith('Mac')) {

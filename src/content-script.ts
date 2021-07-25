@@ -1,10 +1,8 @@
-if (
-  document.body &&
-  document.body.childNodes[0] &&
-  document.body.childNodes[0].tagName === 'PRE'
-) {
+const el = document.body.children[0]
+
+if (el instanceof HTMLElement && el.tagName === 'PRE') {
   try {
-    JSON.parse(document.body.childNodes[0].innerText)
+    JSON.parse(el.innerText)
     chrome.runtime.sendMessage({ type: 'render' })
   } catch (err) {
     chrome.runtime.sendMessage({ type: 'delete' })

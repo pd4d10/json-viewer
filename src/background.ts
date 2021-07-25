@@ -1,5 +1,8 @@
 const data = {}
-const filter = { urls: ['<all_urls>'], types: ['main_frame'] }
+const filter: chrome.webRequest.RequestFilter = {
+  urls: ['<all_urls>'],
+  types: ['main_frame'],
+}
 
 chrome.webRequest.onSendHeaders.addListener(
   (details) => {

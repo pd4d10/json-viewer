@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { themes } from './constants'
 
-const Options = (props) => (
+// export interface OptionsProps {}
+
+export const Options: FC<{
+  theme: 'light' | 'dark'
+  changeTheme(value: string): void
+}> = (props) => (
   <div
     style={{
       position: 'fixed',

@@ -30,6 +30,10 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
+        test: /\.tsx?/,
+        use: 'ts-loader',
+      },
+      {
         test: /\.css$/,
         use: [
           'style-loader',
@@ -65,6 +69,7 @@ module.exports = {
     ],
   },
   resolve: {
+    extensions: ['.ts', '.tsx', '...'],
     alias: {
       'devtools/client/shared/vendor/react': 'react',
       'devtools/client/shared/vendor/react-dom': 'react-dom',
