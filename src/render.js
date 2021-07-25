@@ -71,7 +71,7 @@ function render(text, headers, theme) {
         chrome.storage.sync.set({ theme })
       }}
     />,
-    document.getElementById('options'),
+    document.getElementById('options')
   )
 }
 

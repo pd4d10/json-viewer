@@ -2,27 +2,27 @@ const data = {}
 const filter = { urls: ['<all_urls>'], types: ['main_frame'] }
 
 chrome.webRequest.onSendHeaders.addListener(
-  details => {
+  (details) => {
     console.log('onSendHeaders', details, data)
     data[details.tabId] = {
       request: details.requestHeaders,
     }
   },
   filter,
-  ['requestHeaders'],
+  ['requestHeaders']
 )
 
 chrome.webRequest.onHeadersReceived.addListener(
-  details => {
+  (details) => {
     console.log('onHeadersReceived', details, data)
     data[details.tabId].response = details.responseHeaders
     // TODO: Merge same key like `Vary`
   },
   filter,
-  ['responseHeaders'],
+  ['responseHeaders']
 )
 
-chrome.webRequest.onErrorOccurred.addListener(details => {
+chrome.webRequest.onErrorOccurred.addListener((details) => {
   console.log('onErrorOccurred', details, data)
   delete data[details.tabId]
 }, filter)

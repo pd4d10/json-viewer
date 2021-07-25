@@ -1,12 +1,13 @@
 {
   "name": "json-viewer",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "private": true,
   "description": "Port of Firefox's JSON Viewer",
   "scripts": {
     "start": "webpack",
     "build": "webpack --config webpack.config.production.js",
     "package": "cd chrome; cp ../LICENSE .; zip -r ../chrome.zip .; rm LICENSE; cd ..",
+    "lint": "npx prettier --list-different .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

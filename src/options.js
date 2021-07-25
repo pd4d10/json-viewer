@@ -1,7 +1,7 @@
 import React from 'react'
 import { themes } from './constants'
 
-const Options = props => (
+const Options = (props) => (
   <div
     style={{
       position: 'fixed',
@@ -10,12 +10,12 @@ const Options = props => (
       marginRight: 10,
       marginTop: 2,
     }}
-    onChange={e => {
+    onChange={(e) => {
       props.changeTheme(e.target.value)
     }}
   >
     Theme:{'  '}
-    {themes.map(item => (
+    {themes.map((item) => (
       <label key={item} style={{ marginRight: 4 }}>
         <input
           type="radio"
