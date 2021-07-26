@@ -16,6 +16,7 @@ chrome.webRequest.onSendHeaders.addListener(
   filter,
   ['requestHeaders']
 )
+
 chrome.webRequest.onResponseStarted.addListener(
   (details) => {
     console.log('onResponseStarted', details, data)
@@ -32,11 +33,14 @@ chrome.webRequest.onErrorOccurred.addListener((details) => {
 }, filter)
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message === 'render') {
-    const tabId = sender.tab?.id
-    if (tabId) {
-      console.log('onMessage', message, tabId, data)
-      sendResponse(data[tabId])
-    }
+  console.log('onMessage', message, data)
+
+  const tabId = sender.tab?.id
+  if (!tabId) return
+
+  if (message === 'headers') {
+    sendResponse(data[tabId])
   }
+
+  delete data[tabId]
 })
