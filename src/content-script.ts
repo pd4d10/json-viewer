@@ -1,13 +1,13 @@
 const el = document.body.children[0]
 
-if (el instanceof HTMLElement && el.tagName === 'PRE') {
+if (el.tagName === 'PRE') {
   try {
-    JSON.parse(el.innerText)
-    chrome.runtime.sendMessage({ type: 'render' })
+    JSON.parse(el.innerHTML)
+    chrome.runtime.sendMessage('render', async (headers) => {
+      const { render } = await import('./render')
+      render(headers)
+    })
   } catch (err) {
-    chrome.runtime.sendMessage({ type: 'delete' })
     console.error(err)
   }
-} else {
-  chrome.runtime.sendMessage({ type: 'delete' })
 }

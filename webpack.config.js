@@ -9,7 +9,6 @@ module.exports = {
   watch: true,
   entry: {
     'content-script': './src/content-script',
-    render: './src/render',
     background: './src/background',
   },
   devtool: 'source-map',

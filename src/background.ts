@@ -32,22 +32,11 @@ chrome.webRequest.onErrorOccurred.addListener((details) => {
 }, filter)
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  const tabId = sender.tab?.id
-  if (!tabId) return
-
-  console.log('onMessage', message, tabId, data)
-  switch (message.type) {
-    case 'render':
-      chrome.tabs.executeScript(tabId, {
-        file: 'dist/render.js',
-      })
-      break
-    case 'headers':
+  if (message === 'render') {
+    const tabId = sender.tab?.id
+    if (tabId) {
+      console.log('onMessage', message, tabId, data)
       sendResponse(data[tabId])
-      delete data[tabId]
-      break
-    case 'delete':
-      delete data[tabId]
-      break
+    }
   }
 })
