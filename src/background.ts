@@ -4,6 +4,8 @@ const filter: chrome.webRequest.RequestFilter = {
   types: ['main_frame'],
 }
 
+// https://developer.chrome.com/docs/extensions/reference/webRequest/#life-cycle-of-requests
+// use `onSendHeaders` and `onResponseStarted` here, which are the final steps
 chrome.webRequest.onSendHeaders.addListener(
   (details) => {
     console.log('onSendHeaders', details, data)
@@ -14,10 +16,9 @@ chrome.webRequest.onSendHeaders.addListener(
   filter,
   ['requestHeaders']
 )
-
-chrome.webRequest.onHeadersReceived.addListener(
+chrome.webRequest.onResponseStarted.addListener(
   (details) => {
-    console.log('onHeadersReceived', details, data)
+    console.log('onResponseStarted', details, data)
     data[details.tabId].response = details.responseHeaders
     // TODO: Merge same key like `Vary`
   },
