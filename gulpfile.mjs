@@ -34,8 +34,8 @@ export function mozilla() {
     )
     .pipe(
       gulpif(
-        (file) => file.path.endsWith('filter.svg'),
-        replace(/^<svg/, `<svg fill="${color}"`)
+        (file) => file.path.endsWith('filter-small.svg'),
+        replace(/<svg/, `<svg fill="${color}"`)
       )
     )
     .pipe(gulp.dest('./vendor'))
