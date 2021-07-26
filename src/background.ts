@@ -1,4 +1,4 @@
-const data = {}
+const data: Record<string, any> = {}
 const filter: chrome.webRequest.RequestFilter = {
   urls: ['<all_urls>'],
   types: ['main_frame'],
@@ -31,20 +31,22 @@ chrome.webRequest.onErrorOccurred.addListener((details) => {
 }, filter)
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  const { id } = sender.tab
-  console.log('onMessage', message, id, data)
+  const tabId = sender.tab?.id
+  if (!tabId) return
+
+  console.log('onMessage', message, tabId, data)
   switch (message.type) {
     case 'render':
-      chrome.tabs.executeScript(id, {
+      chrome.tabs.executeScript(tabId, {
         file: 'dist/render.js',
       })
       break
     case 'headers':
-      sendResponse(data[id])
-      delete data[id]
+      sendResponse(data[tabId])
+      delete data[tabId]
       break
     case 'delete':
-      delete data[id]
+      delete data[tabId]
       break
   }
 })

@@ -5,7 +5,8 @@ import Options from './options'
 chrome.runtime.sendMessage(
   { type: 'headers' },
   (headers = { request: [], response: [] }) => {
-    const text = document.body.children[0].innerText
+    const el = document.body.children[0]
+    if (!(el instanceof HTMLElement)) return
 
     // Save button click event
     window.addEventListener('contentMessage', (event) => {
@@ -31,7 +32,7 @@ chrome.runtime.sendMessage(
     })
 
     window.JSONView = {
-      json: new Text(text),
+      json: new Text(el.innerText),
       Locale: require('devtools/client/locales/en-US/jsonview.properties'),
       headers,
     }
