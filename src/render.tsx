@@ -1,8 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Options from './options'
+import { HeadersType } from './types'
 
-export function render(headers: any) {
+export function render(headers: Partial<HeadersType> = {}) {
+  // ensure request and response headers are defined
+  // for example in local file case
+  if (!headers.request) headers.request = []
+  if (!headers.response) headers.response = []
+
   const el = document.body.children[0]
 
   // Save button click event

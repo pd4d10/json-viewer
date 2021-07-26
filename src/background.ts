@@ -1,4 +1,7 @@
-const data: Record<string, any> = {}
+import { HeadersType } from './types'
+
+const data: Record<string, Partial<HeadersType>> = {}
+
 const filter: chrome.webRequest.RequestFilter = {
   urls: ['<all_urls>'],
   types: ['main_frame'],
@@ -6,12 +9,13 @@ const filter: chrome.webRequest.RequestFilter = {
 
 // https://developer.chrome.com/docs/extensions/reference/webRequest/#life-cycle-of-requests
 // use `onSendHeaders` and `onResponseStarted` here, which are the final steps
+// note: these lifecycle events are not always fired
 chrome.webRequest.onSendHeaders.addListener(
   (details) => {
     console.log('onSendHeaders', details, data)
-    data[details.tabId] = {
-      request: details.requestHeaders,
-    }
+
+    if (!data[details.tabId]) data[details.tabId] = {}
+    data[details.tabId].request = details.requestHeaders
   },
   filter,
   ['requestHeaders']
@@ -20,6 +24,8 @@ chrome.webRequest.onSendHeaders.addListener(
 chrome.webRequest.onResponseStarted.addListener(
   (details) => {
     console.log('onResponseStarted', details, data)
+
+    if (!data[details.tabId]) data[details.tabId] = {}
     data[details.tabId].response = details.responseHeaders
     // TODO: Merge same key like `Vary`
   },
