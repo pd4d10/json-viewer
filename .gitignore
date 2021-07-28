@@ -59,3 +59,4 @@ typings/
 
 chrome/dist/
 vendor/
+*.zip

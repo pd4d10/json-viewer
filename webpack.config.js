@@ -74,7 +74,7 @@ module.exports = {
       'devtools/client/shared/vendor/react-dom': 'react-dom',
       'devtools/client/shared/vendor/react-prop-types': 'prop-types',
       Services: path.resolve('src/services'),
-      devtools: path.resolve('vendor/mozilla-central/devtools'),
+      devtools: path.resolve('vendor/gecko/devtools'),
     },
   },
   plugins: [new CleanWebpackPlugin()],
