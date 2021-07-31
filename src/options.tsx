@@ -5,10 +5,10 @@ const availableThemes = ['light', 'dark'] as const
 
 const useTheme = () => {
   const preferDark = useMedia('(prefers-color-scheme:dark)')
-  const [theme, _setTheme] = useState<typeof availableThemes[number]>()
+  const [userTheme, _setTheme] = useState<typeof availableThemes[number]>()
   const [ready, setReady] = useState(false)
 
-  const setTheme = (v: any) => {
+  const setUserTheme = (v: any) => {
     console.log('set theme', v)
     if (availableThemes.includes(v)) {
       _setTheme(v)
@@ -30,21 +30,20 @@ const useTheme = () => {
   }, [])
 
   useEffect(() => {
-    document.documentElement.setAttribute(
-      'class',
-      'theme-' + (theme ?? (preferDark ? 'dark' : 'light'))
-    )
-  }, [preferDark, theme])
+    const value = userTheme ?? (preferDark ? 'dark' : 'light')
+    document.documentElement.setAttribute('class', 'theme-' + value)
+    document.documentElement.style.setProperty('color-scheme', value) // for scrollbar
+  }, [preferDark, userTheme])
 
   return {
     ready,
-    theme,
-    setTheme,
+    userTheme,
+    setUserTheme,
   }
 }
 
 export const Options: FC = () => {
-  const { theme, setTheme } = useTheme()
+  const { userTheme, setUserTheme } = useTheme()
 
   return (
     <div
@@ -57,9 +56,9 @@ export const Options: FC = () => {
     >
       Theme:{'  '}
       <select
-        value={theme ?? 'system'}
+        value={userTheme ?? 'system'}
         onChange={(e) => {
-          setTheme(e.target.value)
+          setUserTheme(e.target.value)
         }}
       >
         <option key="">system</option>

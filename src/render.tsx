@@ -69,12 +69,12 @@ export function render(headers: Partial<HeadersType> = {}) {
 
   document.body.innerHTML = '<div id="content"></div><div id="options"></div>'
 
+  // Render options
+  ReactDOM.render(<Options />, document.getElementById('options'))
+
   // Inject CSS
   require('devtools/client/jsonview/css/main.css')
 
   // Render JSONView component
   require('devtools/client/jsonview/json-viewer')
-
-  // Render options
-  ReactDOM.render(<Options />, document.getElementById('options'))
 }
