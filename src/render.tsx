@@ -34,9 +34,20 @@ export function render(headers: Partial<HeadersType> = {}) {
     }
   })
 
+  let localeJson: any
+  navigator.languages.forEach((lang) => {
+    try {
+      if (!localeJson) localeJson = require(`l10n/${lang}.properties`)
+    } catch (err) {
+      console.log('locale not found', lang)
+    }
+  })
+
   const JSONView = {
     json: new Text(el.innerHTML),
-    Locale: require('devtools/client/locales/en-US/jsonview.properties'),
+    Locale:
+      localeJson ??
+      require('devtools/client/locales/en-US/jsonview.properties'),
     headers,
   }
   console.log('JSONView', JSONView)
