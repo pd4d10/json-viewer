@@ -54,7 +54,7 @@ export const Options: FC = () => {
         userSelect: 'none',
       }}
     >
-      Theme:{'  '}
+      Theme:&nbsp;&nbsp;
       <select
         value={userTheme ?? 'system'}
         onChange={(e) => {
@@ -66,6 +66,10 @@ export const Options: FC = () => {
           <option key={v}>{v}</option>
         ))}
       </select>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="https://github.com/pd4d10/json-viewer" target="_blank">
+        Source Code
+      </a>
     </div>
   )
 }
