@@ -34,28 +34,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: { importLoaders: 1 },
-          },
-          {
-            loader: 'string-replace-loader',
-            options: {
-              multiple: [
-                {
-                  search: new RegExp('chrome://devtools/skin', 'g'),
-                  replace: 'devtools/client/themes',
-                },
-                {
-                  search: new RegExp('chrome://devtools/content', 'g'),
-                  replace: 'devtools/client',
-                },
-              ],
-            },
-          },
-        ],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.svg$/,

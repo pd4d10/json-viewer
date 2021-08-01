@@ -41,7 +41,7 @@ export const downloadL10n = gulp.series(
       url: `https://hg.mozilla.org/l10n-central/${locale}/raw-file/tip/devtools/client/jsonview.properties`,
     })
       .pipe(
-        plumber(function errorHandler(err) {
+        plumber((err) => {
           console.error(err)
           cb() // some of the locales are not available (404), just ignore the errors
         })
@@ -62,6 +62,15 @@ export const gecko = gulp.series(
         rename((obj) => {
           obj.dirname = obj.dirname.replace(/mozilla-central-.*?\//, 'gecko/')
         })
+      )
+      .pipe(
+        replace(
+          new RegExp('chrome://devtools/skin', 'g'),
+          'devtools/client/themes'
+        )
+      )
+      .pipe(
+        replace(new RegExp('chrome://devtools/content', 'g'), 'devtools/client')
       )
       .pipe(
         gulpif(
