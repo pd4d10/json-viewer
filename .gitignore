@@ -57,6 +57,6 @@ typings/
 # dotenv environment variables file
 .env
 
-chrome/dist/
+dist/
 vendor/
 *.zip

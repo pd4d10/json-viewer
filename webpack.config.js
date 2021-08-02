@@ -1,9 +1,8 @@
 // @ts-check
 const path = require('path')
-const webpack = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
-/** @type {webpack.Configuration} */
+/** @type {import('webpack').Configuration} */
 module.exports = {
   mode: 'development',
   watch: true,
@@ -11,7 +10,6 @@ module.exports = {
     'content-script': './src/content-script',
     background: './src/background',
   },
-  devtool: 'source-map',
   output: {
     filename: '[name].js',
     path: path.resolve('chrome/dist'),
