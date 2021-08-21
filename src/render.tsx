@@ -45,7 +45,7 @@ export function render(headers: Partial<HeadersType> = {}) {
   })
 
   const JSONView = {
-    json: new Text(el.innerHTML),
+    json: new Text((el as HTMLElement).innerText),
     Locale:
       localeJson ??
       require('devtools/client/locales/en-US/jsonview.properties'),
