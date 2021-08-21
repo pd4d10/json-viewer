@@ -9,7 +9,8 @@ export function render(headers: Partial<HeadersType> = {}) {
   if (!headers.request) headers.request = []
   if (!headers.response) headers.response = []
 
-  const el = document.body.children[0]
+  const el = document.body.firstElementChild
+  if (el?.tagName !== 'PRE') return
 
   // Save button click event
   window.addEventListener('contentMessage', (event) => {
