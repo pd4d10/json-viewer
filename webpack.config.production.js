@@ -6,6 +6,7 @@ const config = require('./webpack.config')
 /** @type {import('webpack').Configuration} */
 module.exports = {
   ...config,
+  devtool: false,
   mode: 'production',
   watch: false,
   plugins: [...config.plugins, new BundleAnalyzerPlugin()],

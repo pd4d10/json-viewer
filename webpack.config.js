@@ -7,6 +7,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 module.exports = {
   mode: 'development',
   watch: true,
+
+  // eval not work in extension background, choose another here
+  // https://webpack.js.org/configuration/devtool/#devtool
+  devtool: 'cheap-source-map',
   entry: {
     'content-script': './src/content-script',
     background: './src/background',
