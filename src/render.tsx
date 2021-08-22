@@ -3,14 +3,11 @@ import ReactDOM from 'react-dom'
 import Options from './options'
 import { HeadersType, logDebug } from './utils'
 
-export function render(headers: Partial<HeadersType> = {}) {
+export function render(headers: Partial<HeadersType> = {}, jsonText: string) {
   // ensure request and response headers are defined
   // for example in local file case
   if (!headers.request) headers.request = []
   if (!headers.response) headers.response = []
-
-  const el = document.body.firstElementChild
-  if (el?.tagName !== 'PRE') return
 
   // Save button click event
   window.addEventListener('contentMessage', (event) => {
@@ -45,7 +42,7 @@ export function render(headers: Partial<HeadersType> = {}) {
   })
 
   const JSONView = {
-    json: new Text((el as HTMLElement).innerText),
+    json: new Text(jsonText),
     Locale:
       localeJson ??
       require('devtools/client/locales/en-US/jsonview.properties'),
