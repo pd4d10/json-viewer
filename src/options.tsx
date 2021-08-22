@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
 import { useMedia } from 'react-use'
+import { logDebug } from './utils'
 
 const availableThemes = ['light', 'dark'] as const
 
@@ -9,7 +10,7 @@ const useTheme = () => {
   const [ready, setReady] = useState(false)
 
   const setUserTheme = (v: any) => {
-    console.log('set theme', v)
+    logDebug('set theme', v)
     if (availableThemes.includes(v)) {
       _setTheme(v)
       chrome.storage.sync.set({ theme: v })
@@ -21,7 +22,7 @@ const useTheme = () => {
 
   useEffect(() => {
     chrome.storage.sync.get('theme', ({ theme: v }) => {
-      console.log('load theme', v)
+      logDebug('load theme', v)
       if (availableThemes.includes(v)) {
         _setTheme(v)
       }

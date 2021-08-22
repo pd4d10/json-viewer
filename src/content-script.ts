@@ -1,4 +1,5 @@
 import { render } from './render'
+import { logDebug } from './utils'
 
 const el = document.body.children[0]
 
@@ -9,7 +10,7 @@ if (el.tagName === 'PRE') {
       render(headers)
     })
   } catch (err) {
-    console.error(err)
+    logDebug(err)
     chrome.runtime.sendMessage('clear')
   }
 } else {

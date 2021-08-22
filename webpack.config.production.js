@@ -14,7 +14,6 @@ module.exports = {
       new TerserPlugin({
         terserOptions: {
           output: { ascii_only: true }, // fix chrome.tabs.executeScript error: not utf-8
-          compress: { drop_console: true },
         },
       }),
     ],

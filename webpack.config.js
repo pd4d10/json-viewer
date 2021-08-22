@@ -1,5 +1,6 @@
 // @ts-check
 const path = require('path')
+const webpack = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 /** @type {import('webpack').Configuration} */
@@ -55,5 +56,8 @@ module.exports = {
       l10n: path.resolve('vendor/l10n'),
     },
   },
-  plugins: [new CleanWebpackPlugin()],
+  plugins: [
+    new CleanWebpackPlugin(),
+    new webpack.EnvironmentPlugin({ NODE_ENV: 'development' }),
+  ],
 }

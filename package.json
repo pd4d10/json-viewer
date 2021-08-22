@@ -5,7 +5,7 @@
   "description": "Port of Firefox's JSON Viewer",
   "scripts": {
     "start": "webpack",
-    "build": "webpack --config webpack.config.production.js",
+    "build": "NODE_ENV=production webpack --config webpack.config.production.js",
     "package": "cd chrome; cp ../LICENSE .; zip -r ../chrome.zip .; rm LICENSE; cd ..",
     "lint": "npx prettier --list-different .",
     "test": "echo \"Error: no test specified\" && exit 1"

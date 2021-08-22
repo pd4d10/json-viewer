@@ -1,4 +1,4 @@
-import { HeadersType } from './types'
+import { HeadersType, logDebug } from './utils'
 
 const data: Record<string, Partial<HeadersType>> = {}
 
@@ -12,7 +12,7 @@ const filter: chrome.webRequest.RequestFilter = {
 // note: these lifecycle events are not always fired
 chrome.webRequest.onSendHeaders.addListener(
   (details) => {
-    console.log('onSendHeaders', details, data)
+    logDebug('onSendHeaders', details, data)
 
     if (!data[details.tabId]) data[details.tabId] = {}
     data[details.tabId].request = details.requestHeaders
@@ -23,7 +23,7 @@ chrome.webRequest.onSendHeaders.addListener(
 
 chrome.webRequest.onResponseStarted.addListener(
   (details) => {
-    console.log('onResponseStarted', details, data)
+    logDebug('onResponseStarted', details, data)
 
     if (!data[details.tabId]) data[details.tabId] = {}
     data[details.tabId].response = details.responseHeaders
@@ -34,12 +34,12 @@ chrome.webRequest.onResponseStarted.addListener(
 )
 
 chrome.webRequest.onErrorOccurred.addListener((details) => {
-  console.log('onErrorOccurred', details, data)
+  logDebug('onErrorOccurred', details, data)
   delete data[details.tabId]
 }, filter)
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  console.log('onMessage', message, data)
+  logDebug('onMessage', message, data)
 
   const tabId = sender.tab?.id
   if (!tabId) return

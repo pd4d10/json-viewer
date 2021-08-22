@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Options from './options'
-import { HeadersType } from './types'
+import { HeadersType, logDebug } from './utils'
 
 export function render(headers: Partial<HeadersType> = {}) {
   // ensure request and response headers are defined
@@ -15,7 +15,7 @@ export function render(headers: Partial<HeadersType> = {}) {
   // Save button click event
   window.addEventListener('contentMessage', (event) => {
     const e = event as CustomEvent
-    console.log('contentMessage', e.detail)
+    logDebug('contentMessage', e.detail)
     switch (e.detail.type) {
       case 'save':
         const link = document.createElement('a')
@@ -40,7 +40,7 @@ export function render(headers: Partial<HeadersType> = {}) {
     try {
       if (!localeJson) localeJson = require(`l10n/${lang}.properties`)
     } catch (err) {
-      console.log('locale not found', lang)
+      logDebug('locale not found', lang)
     }
   })
 
@@ -51,7 +51,7 @@ export function render(headers: Partial<HeadersType> = {}) {
       require('devtools/client/locales/en-US/jsonview.properties'),
     headers,
   }
-  console.log('JSONView', JSONView)
+  logDebug('JSONView', JSONView)
   ;(window as any).JSONView = JSONView
 
   // Set <html> attributes
