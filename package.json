@@ -1,26 +1,12 @@
 {
   "name": "json-viewer",
-  "version": "1.0.0",
   "private": true,
-  "description": "Port of Firefox's JSON Viewer",
   "scripts": {
     "start": "webpack",
     "build": "NODE_ENV=production webpack --config webpack.config.production.js",
     "package": "cd chrome; cp ../LICENSE .; zip -r ../chrome.zip .; rm LICENSE; cd ..",
-    "lint": "npx prettier --list-different .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "npx prettier --list-different --ignore-path=.gitignore ."
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/pd4d10/json-viewer.git"
-  },
-  "keywords": [],
-  "author": "pd4d10 <pd4d10@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/pd4d10/json-viewer/issues"
-  },
-  "homepage": "https://github.com/pd4d10/json-viewer#readme",
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
