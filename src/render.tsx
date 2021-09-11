@@ -1,14 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Options from './options'
-import { HeadersType, logDebug } from './utils'
+import { logDebug } from './utils'
 
-export function render(headers: Partial<HeadersType> = {}, jsonText: string) {
-  // ensure request and response headers are defined
-  // for example in local file case
-  if (!headers.request) headers.request = []
-  if (!headers.response) headers.response = []
-
+export function render(jsonText: string) {
   // Save button click event
   window.addEventListener('contentMessage', (event) => {
     const e = event as CustomEvent
@@ -46,7 +41,10 @@ export function render(headers: Partial<HeadersType> = {}, jsonText: string) {
     Locale:
       localeJson ??
       require('devtools/client/locales/en-US/jsonview.properties'),
-    headers,
+    headers: {
+      request: [],
+      response: [],
+    },
   }
   logDebug('JSONView', JSONView)
   ;(window as any).JSONView = JSONView
@@ -72,6 +70,7 @@ export function render(headers: Partial<HeadersType> = {}, jsonText: string) {
 
   // Inject CSS
   require('devtools/client/jsonview/css/main.css')
+  require('./index.css')
 
   // Render JSONView component
   require('devtools/client/jsonview/json-viewer')

@@ -13,7 +13,6 @@ module.exports = {
   devtool: 'cheap-source-map',
   entry: {
     'content-script': './src/content-script',
-    background: './src/background',
   },
   output: {
     filename: '[name].js',
