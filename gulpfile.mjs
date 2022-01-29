@@ -1,4 +1,5 @@
 // @ts-check
+import fs from 'fs-extra'
 import del from 'del'
 import gulp from 'gulp'
 import download from 'gulp-download-stream'
@@ -6,12 +7,12 @@ import unzip from 'gulp-unzip'
 import rename from 'gulp-rename'
 import gulpif from 'gulp-if'
 import replace from 'gulp-replace'
-import plumber from 'gulp-plumber'
 import fetch from 'node-fetch'
 import cheerio from 'cheerio'
 
 const color = 'rgba(135, 135, 137, 0.9)'
 
+// https://hg.mozilla.org/mozilla-central/file/tip/devtools/client
 export const downloadGeckoZip = () => {
   return download({
     file: 'gecko.zip',
@@ -19,36 +20,38 @@ export const downloadGeckoZip = () => {
   }).pipe(gulp.dest('.'))
 }
 
-let locales = []
+export const downloadL10nList = async (done) => {
+  const html = await fetch('https://hg.mozilla.org/l10n-central').then((res) =>
+    res.text()
+  )
+  const $ = cheerio.load(html)
+  const locales = $('table')
+    .first()
+    .find('td:first-child')
+    .slice(1)
+    .map((i, el) => $(el).text().trim())
+    .toArray()
+  console.log(locales)
 
-export const downloadL10n = gulp.series(
-  async (cb) => {
-    const html = await fetch('https://hg.mozilla.org/l10n-central').then(
-      (res) => res.text()
+  fs.writeJsonSync('./vendor/l10n.json', locales)
+  done()
+}
+
+export const downloadL10nContent = async (done) => {
+  const locales = fs.readJsonSync('./vendor/l10n.json')
+  for (const locale of locales) {
+    const res = await fetch(
+      `https://hg.mozilla.org/l10n-central/${locale}/raw-file/tip/devtools/client/jsonview.properties`
     )
-    const $ = cheerio.load(html)
-    locales = $('table')
-      .first()
-      .find('td:first-child')
-      .map((i, el) => $(el).text().trim())
-      .toArray()
-    // console.log(locales)
-    cb()
-  },
-  ...locales.map((locale) => (cb) => {
-    return download({
-      file: `${locale}.properties`,
-      url: `https://hg.mozilla.org/l10n-central/${locale}/raw-file/tip/devtools/client/jsonview.properties`,
-    })
-      .pipe(
-        plumber((err) => {
-          console.error(err)
-          cb() // some of the locales are not available (404), just ignore the errors
-        })
-      )
-      .pipe(gulp.dest('./vendor/l10n'))
-  })
-)
+    if (!res.ok) {
+      console.log(locale, 'not found')
+      continue
+    }
+    const text = await res.text()
+    fs.writeFileSync(`./vendor/l10n/${locale}.properties`, text)
+  }
+  done()
+}
 
 export const gecko = gulp.series(
   () => {
