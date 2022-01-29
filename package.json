@@ -5,7 +5,7 @@
     "start": "webpack",
     "build": "NODE_ENV=production webpack --config webpack.config.production.js",
     "package": "cd chrome; cp ../LICENSE .; zip -r ../chrome.zip .; rm LICENSE; cd ..",
-    "lint": "npx prettier --list-different --ignore-path=.gitignore ."
+    "lint": "npx prettier --list-different src"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
