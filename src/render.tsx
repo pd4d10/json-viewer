@@ -28,13 +28,11 @@ export function render(jsonText: string) {
   })
 
   let localeJson: any
-  navigator.languages.forEach((lang) => {
-    try {
-      if (!localeJson) localeJson = require(`l10n/${lang}.properties`)
-    } catch (err) {
-      logDebug('locale not found', lang)
-    }
-  })
+  try {
+    if (!localeJson) localeJson = require(`l10n/${navigator.languages[0]}.properties`)
+  } catch (err) {
+    logDebug('locale not found', navigator.languages[0])
+  }
 
   const JSONView = {
     json: new Text(jsonText),
