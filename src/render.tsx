@@ -27,20 +27,24 @@ export function render(jsonText: string) {
     }
   })
 
-  let localeJson: any
-  navigator.languages.forEach((lang) => {
+  const defaultLocale = require('devtools/client/locales/en-US/jsonview.properties')
+
+  let locale: any
+  for (const lang of navigator.languages) {
     try {
-      if (!localeJson) localeJson = require(`l10n/${lang}.properties`)
+      if (!locale) {
+        locale =
+          lang === 'en-US' ? defaultLocale : require(`l10n/${lang}.properties`)
+        break
+      }
     } catch (err) {
       logDebug('locale not found', lang)
     }
-  })
+  }
 
   const JSONView = {
     json: new Text(jsonText),
-    Locale:
-      localeJson ??
-      require('devtools/client/locales/en-US/jsonview.properties'),
+    Locale: locale ?? defaultLocale,
     headers: {
       request: [],
       response: [],
