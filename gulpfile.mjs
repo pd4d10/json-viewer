@@ -8,7 +8,7 @@ import rename from 'gulp-rename'
 import gulpif from 'gulp-if'
 import replace from 'gulp-replace'
 import fetch from 'node-fetch'
-import cheerio from 'cheerio'
+import * as cheerio from 'cheerio'
 
 const color = 'rgba(135, 135, 137, 0.9)'
 
