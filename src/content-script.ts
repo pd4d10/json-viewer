@@ -1,7 +1,9 @@
 import { render } from './render'
 import { logDebug } from './utils'
 
-const el = document.body.firstElementChild
+// https://github.com/pd4d10/json-viewer/issues/28
+// Since Chrome 117
+const el = document.body.lastElementChild
 
 if (el instanceof HTMLElement && el?.tagName === 'PRE') {
   try {
