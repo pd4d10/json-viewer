@@ -1,3 +1,7 @@
 .tabs-menu-item.headers {
   display: none;
 }
+
+.tabs .tabs-navigation .tabs-menu {
+  overflow-x: hidden;
+}

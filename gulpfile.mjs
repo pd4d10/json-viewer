@@ -68,6 +68,18 @@ export const gecko = gulp.series(
       )
       .pipe(
         replace(
+          `require("resource://devtools/shared/flags.js")`,
+          '{ testing: false }'
+        )
+      )
+      .pipe(
+        replace(
+          new RegExp('resource://', 'g'),
+          process.cwd() + '/vendor/gecko/'
+        )
+      )
+      .pipe(
+        replace(
           new RegExp('chrome://devtools/skin', 'g'),
           'devtools/client/themes'
         )

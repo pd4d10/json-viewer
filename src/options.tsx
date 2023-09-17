@@ -6,7 +6,7 @@ const availableThemes = ['light', 'dark'] as const
 
 const useTheme = () => {
   const preferDark = useMedia('(prefers-color-scheme:dark)')
-  const [userTheme, _setTheme] = useState<typeof availableThemes[number]>()
+  const [userTheme, _setTheme] = useState<(typeof availableThemes)[number]>()
   const [ready, setReady] = useState(false)
 
   const setUserTheme = (v: any) => {
@@ -50,7 +50,7 @@ export const Options: FC = () => {
     <div
       style={{
         position: 'fixed',
-        top: 2,
+        top: 5,
         right: 10,
         userSelect: 'none',
       }}
