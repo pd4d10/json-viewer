@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "JSON Viewer",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Port of Firefox's JSON Viewer",
   "offline_enabled": true,
   "homepage_url": "https://github.com/pd4d10/json-viewer",
