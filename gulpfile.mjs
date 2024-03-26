@@ -68,11 +68,18 @@ export const gecko = gulp.series(
       )
       .pipe(
         replace(
+          // devtools/client/shared/components/reps/reps/custom-formatter.js
           `require("resource://devtools/shared/flags.js")`,
           '{ testing: false }'
         )
       )
-      .pipe(replace(`require("resource://devtools/shared/l10n.js")`, '{}'))
+      .pipe(
+        replace(
+          // devtools/client/shared/components/Tree.js
+          `require("resource://devtools/shared/l10n.js")`,
+          '{}'
+        )
+      )
       .pipe(
         replace(
           new RegExp('resource://', 'g'),
