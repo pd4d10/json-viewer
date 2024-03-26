@@ -1,25 +1,18 @@
 import { render } from './render'
 import { logDebug } from './utils'
 
-// https://github.com/pd4d10/json-viewer/issues/28
-// Since Chrome 117
-const elPre = document.querySelector('body > pre')
+const el =
+  // https://github.com/pd4d10/json-viewer/issues/28
+  // Since Chrome 117
+  document.querySelector('body > pre') ??
+  // Edge Browser
+  // https://learn.microsoft.com/en-us/microsoft-edge/devtools-guide-chromium/json-viewer/json-viewer
+  document.querySelector('body > div[hidden=true]')
 
-// Edge Browser
-// https://learn.microsoft.com/en-us/microsoft-edge/devtools-guide-chromium/json-viewer/json-viewer
-const elDiv = document.querySelector('body > div[hidden=true]')
-
-if (elDiv instanceof HTMLElement) {
+if (el instanceof HTMLElement) {
   try {
-    JSON.parse(elDiv.innerText) // check if it's valid JSON
-    render(elDiv.innerText)
-  } catch (err) {
-    logDebug(err)
-  }
-} else if (elPre instanceof HTMLElement) {
-  try {
-    JSON.parse(elPre.innerText) // check if it's valid JSON
-    render(elPre.innerText)
+    JSON.parse(el.innerText) // check if it's valid JSON
+    render(el.innerText)
   } catch (err) {
     logDebug(err)
   }
