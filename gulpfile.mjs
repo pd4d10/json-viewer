@@ -1,6 +1,5 @@
 // @ts-check
 import fs from 'fs-extra'
-import del from 'del'
 import gulp from 'gulp'
 import download from 'gulp-download-stream'
 import unzip from 'gulp-unzip'
@@ -9,6 +8,7 @@ import gulpif from 'gulp-if'
 import replace from 'gulp-replace'
 import fetch from 'node-fetch'
 import * as cheerio from 'cheerio'
+import { deleteAsync } from 'del'
 
 const color = 'rgba(135, 135, 137, 0.9)'
 
@@ -55,7 +55,7 @@ export const downloadL10nContent = async (done) => {
 
 export const gecko = gulp.series(
   () => {
-    return del('./vendor/gecko')
+    return deleteAsync('./vendor/gecko')
   },
   () => {
     return gulp
