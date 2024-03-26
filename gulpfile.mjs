@@ -72,6 +72,7 @@ export const gecko = gulp.series(
           '{ testing: false }'
         )
       )
+      .pipe(replace(`require("resource://devtools/shared/l10n.js")`, '{}'))
       .pipe(
         replace(
           new RegExp('resource://', 'g'),
